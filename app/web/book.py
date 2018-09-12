@@ -1,18 +1,23 @@
-from flask import Blueprint
+from flask import request
 from flask.json import jsonify
 
-from helper import set_key
-from yushu import Book
+from app.forms.search_forms import SearchForms
+from app.web import web
+from app.libs.helper import set_key
+from app.sipder.yushu import Book
 
-bp = Blueprint('book', __name__, url_prefix='/book')
 
+@web.route('/book/search')
+def search():
+    form = SearchForms(request.args)
 
-@bp.route('/search/<string:q>/<int:page>')
-def search(q: str, page: int):
-    query_key = set_key(q)
-    result = None
-    if query_key == 'isbn':
-        result = Book.search_by_isbn(query_key)
+    if form.validate():
+        query_key = set_key(form.q.data.strip())
+        result = None
+        if query_key == 'isbn':
+            result = Book.search_by_isbn(query_key)
+        else:
+            result = Book.search_by_keyword(query_key, form.page.data)
+        return jsonify(result)
     else:
-        result = Book.search_by_keyword(query_key)
-    return jsonify(result)
+        return jsonify(form.errors)

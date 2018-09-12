@@ -3,3 +3,7 @@
 
 class Config(object):
     DEBUG = False
+    SECRET_KEY = 'fisher'
+
+    #     custom
+    PER_PAGE = 15

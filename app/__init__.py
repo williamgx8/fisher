@@ -1,7 +1,7 @@
 from flask import Flask
 
-from app.web.book import bp
-from config import Config
+from app.web import web
+from app.config import Config
 
 
 def create_app():
@@ -13,4 +13,4 @@ def create_app():
 
 
 def register_blueprint(app: Flask):
-    app.register_blueprint(bp)
+    app.register_blueprint(web)

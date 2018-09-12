@@ -1,4 +1,6 @@
-from httper import Http
+from flask import current_app
+
+from app.libs.httper import Http
 
 
 class Book(object):
@@ -12,7 +14,11 @@ class Book(object):
         return result
 
     @classmethod
-    def search_by_keyword(cls, keyword: str, count: int = 15, start: int = 0):
-        url = Book.keyword_url.format(keyword, count, start)
+    def search_by_keyword(cls, keyword: str, page: int = 1):
+        url = Book.keyword_url.format(keyword, current_app.config.get('PER_PAGE'), Book.__get_start(page))
         result = Http.get(url)
         return result
+
+    @classmethod
+    def __get_start(cls, page: int = 1):
+        return current_app.config.get('PER_PAGE') * (page - 1)
