@@ -1,11 +1,13 @@
+from flask import Blueprint
 from flask.json import jsonify
 
 from helper import set_key
-from run import app
 from yushu import Book
 
+bp = Blueprint('book', __name__, url_prefix='/book')
 
-@app.route('/book/search/<string:q>/<int:page>')
+
+@bp.route('/search/<string:q>/<int:page>')
 def search(q: str, page: int):
     query_key = set_key(q)
     result = None
