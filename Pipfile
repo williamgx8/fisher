@@ -9,6 +9,7 @@ requests = "*"
 wtforms = "*"
 flask-wtf = "*"
 flask-sqlalchemy = "*"
+cymysql = "*"
 
 [dev-packages]
 
