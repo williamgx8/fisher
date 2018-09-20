@@ -19,17 +19,21 @@ class BookViewModel(object):
         self.summary = book_data.get('summary') or ''
         self.pages = book_data.get('pages')
 
+    @property
+    def intro(self):
+        return '/'.join(filter(lambda x: x != '', [self.author, self.publisher, self.price]))
+
 
 class BookCollection(object):
-    def __int__(self):
+    def __init__(self):
         self.total = 0
         self.books = []
-        self.keywords = None
+        self.keyword = None
 
     def fill(self, book: Book, keyword: str):
-        self.total = book.total
         self.books = [BookViewModel(book_data) for book_data in book.books]
-        self.keywords = keyword
+        self.keyword = keyword
+        self.total = book.total
 
 
 if __name__ == '__main__':
